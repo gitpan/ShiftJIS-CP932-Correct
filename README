@@ -1,4 +1,4 @@
-ShiftJIS::CP932::Correct version 0.03
+ShiftJIS::CP932::Correct version 0.04
 ================
 
 NAME
@@ -12,11 +12,23 @@ SYNOPSIS
 
   $corrected_cp932_string = correct_cp932($cp932_string);
 
+  $bool = is_cp932($cp932_string);
+
+  $bool = is_corrected_cp932($corrected_cp932_string);
+
 DESCRIPTION
 
-This module provides the function <correct_cp932>.
-It corrects CP-932 string. namely, converts less preferred codepoints
+This module provides some functions.
+
+C<correct_cp932> corrects CP-932 string.
+i.e. converts less preferred codepoints
 of duplicates (doubly-defined characters) to the preferred one.
+
+C<is_cp932> returns false if the string contain any not-CP932 codepoint.
+
+C<is_corrected_cp932> returns false if the string contain 
+any not-CP932 codepoint or any less preferred codepoint
+of duplicates.
 
 INSTALLATION
 
@@ -29,7 +41,7 @@ To install this module type the following:
 
 DEPENDENCIES
 
-perl.
+Perl 5.003 or later.
 
 COPYRIGHT AND LICENCE
 
@@ -48,8 +60,3 @@ SEE ALSO
 Microsoft PRB: Conversion Problem Between Shift-JIS and Unicode
 (Article ID: Q170559)
 
-Japan Vendors Council, CDE/Motif Technical WG 
-http://www.opengroup.or.jp/jvc/jvc_top.html http://www.opengroup.or.jp/jvc/cde/cde.html
-
-Unicode.org
-ftp://ftp.unicode.org/Public/MAPPINGS/VENDORS/MICSFT/WINDOWS/CP932.TXT

@@ -1,14 +1,16 @@
 package ShiftJIS::CP932::Correct;
 
 use strict;
-use vars qw($VERSION $PACKAGE @ISA @EXPORT @EXPORT_OK);
+use vars qw($VERSION $PACKAGE @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 use vars qw(%CorrCP932);
 use Carp;
 require Exporter;
 @ISA = qw(Exporter);
-@EXPORT = qw(correct_cp932);
+@EXPORT      = qw(correct_cp932 is_corrected_cp932);
+@EXPORT_OK   = qw(correct_cp932 is_corrected_cp932 is_cp932);
+%EXPORT_TAGS = (all => \@EXPORT_OK);
 
-$VERSION = '0.03';
+$VERSION = '0.04';
 $PACKAGE = 'ShiftJIS::CP932::Correct';
 
 my $Err_too = "$PACKAGE: Too many arguments for %s";
@@ -25,6 +27,17 @@ my $CP932 = '(?:[\x00-\x7f\xa1-\xdf]|'
         . '\x87[\x40-\x5d\x5f-\x75\x7e\x80-\x9c]|'
         . '\xed[\x40-\x7e\x80-\xfc]|\xee[\x40-\x7e\x80-\xec\xef-\xfc]|'
         . '[\xfa\xfb][\x40-\x7e\x80-\xfc]|\xfc[\x40-\x4b])';
+
+my $CorrectCP932 = '(?:[\x00-\x7f\xa1-\xdf]|'
+        . '\x81[\x40-\x7e\x80-\xac\xb8-\xbf\xc8-\xce\xda-\xe8\xf0-\xf7\xfc]|'
+        . '\x82[\x4f-\x58\x60-\x79\x81-\x9a\x9f-\xf1]|'
+        . '\x83[\x40-\x7e\x80-\x96\x9f-\xb6\xbf-\xd6]|'
+        . '\x84[\x40-\x60\x70-\x7e\x80-\x91\x9f-\xbe]|'
+        . '\x88[\x9f-\xfc]|\x98[\x40-\x72\x9f-\xfc]|\xea[\x40-\x7e\x80-\xa4]|'
+        . '[\x89-\x97\x99-\x9f\xe0-\xe9][\x40-\x7e\x80-\xfc]|'
+        . '\x87[\x40-\x5d\x5f-\x75\x7e\x80-\x8f\x93\x94\x98\x99]|'
+        . '\xfa[\x40-\x49\x55-\x57\x5c-\x7e\x80-\xfc]|'
+        . '\xfb[\x40-\x7e\x80-\xfc]|\xfc[\x40-\x4b])';
 
 %CorrCP932 = (
 "\x87\x90" => "\x81\xe0",
@@ -427,15 +440,30 @@ my $CP932 = '(?:[\x00-\x7f\xa1-\xdf]|'
 "\xfa\x5b" => "\x81\xe6",
 );
 
-sub correct_cp932 {
-  my $result;
-  if(@_ != 1){ croak sprintf $Err_too, 'correct_cp932' }
+sub correct_cp932 ($)
+{
+  my $result = "";
   my $str = shift;
-  foreach($str =~ /$Schar/go){
-    next if ! m|^$CP932$|o;
-    $result .= defined $CorrCP932{ $_ } ? $CorrCP932{ $_ } : $_;
+  while($str =~ /\G($Schar)/go){
+    my $c = $1;
+    next unless $c =~ m|^$CP932$|o;
+    $result .= defined $CorrCP932{ $c } ? $CorrCP932{ $c } : $c;
   }
   return $result;
+}
+
+sub is_corrected_cp932 ($)
+{
+  my $str = shift;
+  $str =~ s/\G$CorrectCP932//g;
+  ! length $str;
+}
+
+sub is_cp932 ($)
+{
+  my $str = shift;
+  $str =~ s/\G$CP932//g;
+  ! length $str;
 }
 
 1;
@@ -443,8 +471,7 @@ __END__
 
 =head1 NAME
 
-ShiftJIS::CP932::Correct - Corrects a string in the CP-932 encoding
- (Shift_JIS supported by MS).
+ShiftJIS::CP932::Correct - Corrects a CP-932 string (Shift_JIS supported by MS).
 
 =head1 SYNOPSIS
 
@@ -494,7 +521,20 @@ be round trip mapped to Unicode. Any undefined characters are deleted.
 
 For example, converts C<\x87\x90> to C<\x81\xe0>.
 
+=item C<is_corrected_cp932(STRING)>
+
+Returns boolean whether the string is a corrected CP-932 string.
+
+=item C<is_cp932(STRING)>
+
+Returns boolean whether the string is a CP-932 string.
+
 =back
+
+=head2 EXPORT
+
+  correct_cp932 and is_corrected_cp932 by default.
+  is_cp932 on request.
 
 =head1 AUTHOR
 
@@ -516,6 +556,10 @@ modify it under the same terms as Perl itself.
 
 Microsoft PRB: Conversion Problem Between Shift-JIS and Unicode
 (Article ID: Q170559)
+
+=item 2
+
+L<ShiftJIS::CP932::MapUTF>
 
 =back
 

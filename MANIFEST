@@ -3,4 +3,5 @@ Correct.pm
 Makefile.PL
 MANIFEST
 README
-test.pl
+t/test.t
+t/whole.t
