@@ -1,10 +1,10 @@
-ShiftJIS::CP932::Correct version 0.04
+ShiftJIS::CP932::Correct version 0.05
 ================
 
 NAME
 
-ShiftJIS::CP932::Correct - corrects a string in the CP-932 encoding 
-(Shift_JIS supported by MS).
+ShiftJIS::CP932::Correct - corrects a string in Windows CP-932
+(a variant of Shift_JIS)
 
 SYNOPSIS
 
@@ -20,37 +20,37 @@ DESCRIPTION
 
 This module provides some functions.
 
-C<correct_cp932> corrects CP-932 string.
-i.e. converts less preferred codepoints
+C<correct_cp932> corrects Windows CP-932 string.
+i.e. converts less preferred code points
 of duplicates (doubly-defined characters) to the preferred one.
 
-C<is_cp932> returns false if the string contain any not-CP932 codepoint.
+C<is_cp932> returns false if the string contain any not-CP932 code point.
 
 C<is_corrected_cp932> returns false if the string contain 
-any not-CP932 codepoint or any less preferred codepoint
+any not-CP932 code point or any less preferred codepoint
 of duplicates.
 
 INSTALLATION
 
 To install this module type the following:
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+    perl Makefile.PL
+    make
+    make test
+    make install
 
 DEPENDENCIES
 
-Perl 5.003 or later.
+    Perl 5.003 or later.
 
 COPYRIGHT AND LICENCE
 
-Tomoyuki SADAHIRO
+    Tomoyuki SADAHIRO
 
-  bqw10602@nifty.com
-  http://homepage1.nifty.com/nomenclator/perl/
+    bqw10602@nifty.com
+    http://homepage1.nifty.com/nomenclator/perl/
 
-  Copyright(C) 2001, SADAHIRO Tomoyuki. Japan. All rights reserved.
+    Copyright(C) 2001, SADAHIRO Tomoyuki. Japan. All rights reserved.
 
 This program is free software; you can redistribute it and/or 
 modify it under the same terms as Perl itself.

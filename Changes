@@ -1,5 +1,8 @@
 Revision history for Perl extension ShiftJIS::CP932::Correct.
 
+0.05  Sun Apr 14 23:02:15 2002
+    - some doc fix.
+
 0.04  Sat Sep 08 08:06:21 2001
     - fix: avoid warning on Perl 5.003.
     - add is_cp932 and is_corrected_cp932

@@ -10,7 +10,7 @@ require Exporter;
 @EXPORT_OK   = qw(correct_cp932 is_corrected_cp932 is_cp932);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-$VERSION = '0.04';
+$VERSION = '0.05';
 $PACKAGE = 'ShiftJIS::CP932::Correct';
 
 my $Err_too = "$PACKAGE: Too many arguments for %s";
@@ -18,26 +18,26 @@ my $Err_too = "$PACKAGE: Too many arguments for %s";
 my $Schar = '(?:[\x81-\x9F\xE0-\xFC][\x00-\xFF]|[\x00-\xFF])';
 
 my $CP932 = '(?:[\x00-\x7f\xa1-\xdf]|'
-        . '\x81[\x40-\x7e\x80-\xac\xb8-\xbf\xc8-\xce\xda-\xe8\xf0-\xf7\xfc]|'
-        . '\x82[\x4f-\x58\x60-\x79\x81-\x9a\x9f-\xf1]|'
-        . '\x83[\x40-\x7e\x80-\x96\x9f-\xb6\xbf-\xd6]|'
-        . '\x84[\x40-\x60\x70-\x7e\x80-\x91\x9f-\xbe]|'
-        . '\x88[\x9f-\xfc]|\x98[\x40-\x72\x9f-\xfc]|\xea[\x40-\x7e\x80-\xa4]|'
-        . '[\x89-\x97\x99-\x9f\xe0-\xe9][\x40-\x7e\x80-\xfc]|'
-        . '\x87[\x40-\x5d\x5f-\x75\x7e\x80-\x9c]|'
-        . '\xed[\x40-\x7e\x80-\xfc]|\xee[\x40-\x7e\x80-\xec\xef-\xfc]|'
-        . '[\xfa\xfb][\x40-\x7e\x80-\xfc]|\xfc[\x40-\x4b])';
+    . '\x81[\x40-\x7e\x80-\xac\xb8-\xbf\xc8-\xce\xda-\xe8\xf0-\xf7\xfc]|'
+    . '\x82[\x4f-\x58\x60-\x79\x81-\x9a\x9f-\xf1]|'
+    . '\x83[\x40-\x7e\x80-\x96\x9f-\xb6\xbf-\xd6]|'
+    . '\x84[\x40-\x60\x70-\x7e\x80-\x91\x9f-\xbe]|'
+    . '\x88[\x9f-\xfc]|\x98[\x40-\x72\x9f-\xfc]|\xea[\x40-\x7e\x80-\xa4]|'
+    . '[\x89-\x97\x99-\x9f\xe0-\xe9][\x40-\x7e\x80-\xfc]|'
+    . '\x87[\x40-\x5d\x5f-\x75\x7e\x80-\x9c]|'
+    . '\xed[\x40-\x7e\x80-\xfc]|\xee[\x40-\x7e\x80-\xec\xef-\xfc]|'
+    . '[\xfa\xfb][\x40-\x7e\x80-\xfc]|\xfc[\x40-\x4b])';
 
 my $CorrectCP932 = '(?:[\x00-\x7f\xa1-\xdf]|'
-        . '\x81[\x40-\x7e\x80-\xac\xb8-\xbf\xc8-\xce\xda-\xe8\xf0-\xf7\xfc]|'
-        . '\x82[\x4f-\x58\x60-\x79\x81-\x9a\x9f-\xf1]|'
-        . '\x83[\x40-\x7e\x80-\x96\x9f-\xb6\xbf-\xd6]|'
-        . '\x84[\x40-\x60\x70-\x7e\x80-\x91\x9f-\xbe]|'
-        . '\x88[\x9f-\xfc]|\x98[\x40-\x72\x9f-\xfc]|\xea[\x40-\x7e\x80-\xa4]|'
-        . '[\x89-\x97\x99-\x9f\xe0-\xe9][\x40-\x7e\x80-\xfc]|'
-        . '\x87[\x40-\x5d\x5f-\x75\x7e\x80-\x8f\x93\x94\x98\x99]|'
-        . '\xfa[\x40-\x49\x55-\x57\x5c-\x7e\x80-\xfc]|'
-        . '\xfb[\x40-\x7e\x80-\xfc]|\xfc[\x40-\x4b])';
+    . '\x81[\x40-\x7e\x80-\xac\xb8-\xbf\xc8-\xce\xda-\xe8\xf0-\xf7\xfc]|'
+    . '\x82[\x4f-\x58\x60-\x79\x81-\x9a\x9f-\xf1]|'
+    . '\x83[\x40-\x7e\x80-\x96\x9f-\xb6\xbf-\xd6]|'
+    . '\x84[\x40-\x60\x70-\x7e\x80-\x91\x9f-\xbe]|'
+    . '\x88[\x9f-\xfc]|\x98[\x40-\x72\x9f-\xfc]|\xea[\x40-\x7e\x80-\xa4]|'
+    . '[\x89-\x97\x99-\x9f\xe0-\xe9][\x40-\x7e\x80-\xfc]|'
+    . '\x87[\x40-\x5d\x5f-\x75\x7e\x80-\x8f\x93\x94\x98\x99]|'
+    . '\xfa[\x40-\x49\x55-\x57\x5c-\x7e\x80-\xfc]|'
+    . '\xfb[\x40-\x7e\x80-\xfc]|\xfc[\x40-\x4b])';
 
 %CorrCP932 = (
 "\x87\x90" => "\x81\xe0",
@@ -440,30 +440,27 @@ my $CorrectCP932 = '(?:[\x00-\x7f\xa1-\xdf]|'
 "\xfa\x5b" => "\x81\xe6",
 );
 
-sub correct_cp932 ($)
-{
-  my $result = "";
-  my $str = shift;
-  while($str =~ /\G($Schar)/go){
-    my $c = $1;
-    next unless $c =~ m|^$CP932$|o;
-    $result .= defined $CorrCP932{ $c } ? $CorrCP932{ $c } : $c;
-  }
-  return $result;
+sub correct_cp932 ($) {
+    my $result = "";
+    my $str = shift;
+    while ($str =~ /\G($Schar)/go) {
+	my $c = $1;
+	next unless $c =~ m|^$CP932$|o;
+	$result .= defined $CorrCP932{ $c } ? $CorrCP932{ $c } : $c;
+    }
+    return $result;
 }
 
-sub is_corrected_cp932 ($)
-{
-  my $str = shift;
-  $str =~ s/\G$CorrectCP932//g;
-  ! length $str;
+sub is_corrected_cp932 ($) {
+    my $str = shift;
+    $str =~ s/\G$CorrectCP932//g;
+    ! length $str;
 }
 
-sub is_cp932 ($)
-{
-  my $str = shift;
-  $str =~ s/\G$CP932//g;
-  ! length $str;
+sub is_cp932 ($) {
+    my $str = shift;
+    $str =~ s/\G$CP932//g;
+    ! length $str;
 }
 
 1;
@@ -471,30 +468,33 @@ __END__
 
 =head1 NAME
 
-ShiftJIS::CP932::Correct - Corrects a CP-932 string (Shift_JIS supported by MS).
+ShiftJIS::CP932::Correct - corrects a string in Windows CP-932
+(a variant of Shift_JIS)
 
 =head1 SYNOPSIS
 
-  use ShiftJIS::CP932::Correct;
+    use ShiftJIS::CP932::Correct;
 
-  $corrected_cp932 = correct_cp932($cp932_string);
+    $corrected_cp932 = correct_cp932($cp932_string);
 
 =head1 DESCRIPTION
 
 The Microsoft Code Page 932 (CP-932) table comprises 7915 characters:
 
-  JIS X 0201-1976 single-byte characters (191 characters),
-  JIS X 0208-1990 double-byte characters (6879 characters),
-  NEC special characters (83 characters from SJIS row 13),
-  NEC-selected IBM extended characters (374 characters from SJIS row 89 to 92),
-  and IBM extended characters (388 characters from SJIS row 115 to 119).
+    JIS X 0201-1997 single-byte characters (159 characters),
+    JIS X 0211-1994 single-byte characters (32 characters),
+    JIS X 0208-1997 double-byte characters (6879 characters),
+    NEC special characters (83 characters from SJIS row 13),
+    NEC-selected IBM extended characters (374 characters from SJIS row 89 to 92),
+    and IBM extended characters (388 characters from SJIS row 115 to 119).
 
 It contains duplicates that do not round trip
 map. These duplicates are due to the characters defined
 by vendors, NEC and IBM.
 
 For example, there are two characters mapped to U+2252,
-namely, 0x81e0 (JIS X 0208) and 0x8790 (NEC special character).
+namely, 0x81e0 (a JIS X 0208 character)
+and 0x8790 (an NEC special character).
 
 So some programs converting Unicode to CP-932 may carelessly
 convert U+2252 to 0x8790, but not to 0x81e0.
@@ -503,7 +503,7 @@ Such a behavior is disagreeable
 since NEC special characters (or other vendor-defined characters)
 are less compatible.
 
-This module corrects (or normalizes) such a (certainly legal but) 
+This module corrects (or normalizes) such a (certainly legal but)
 'wrong' CP-932 string.
 
 This modules uses a map provided in Microsoft PRB: Conversion Problem
@@ -513,7 +513,7 @@ Between Shift-JIS and Unicode (Article ID: Q170559).
 
 =item C<correct_cp932(STRING)>
 
-Corrects a CP-932 string. namely, converts less preferred codepoints
+Corrects a CP-932 string. namely, converts less preferred code points
 of duplicates (doubly-defined characters) to those preferred.
 
 Does not affect characters that can
@@ -543,7 +543,7 @@ Tomoyuki SADAHIRO
   bqw10602@nifty.com
   http://homepage1.nifty.com/nomenclator/perl/
 
-  Copyright(C) 2001, SADAHIRO Tomoyuki. Japan. All rights reserved.
+  Copyright(C) 2001-2002, SADAHIRO Tomoyuki. Japan. All rights reserved.
 
 This program is free software; you can redistribute it and/or 
 modify it under the same terms as Perl itself.
