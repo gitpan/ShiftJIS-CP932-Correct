@@ -10,7 +10,7 @@ require Exporter;
 @EXPORT_OK   = qw(correct_cp932 is_corrected_cp932 is_cp932);
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-$VERSION = '0.05';
+$VERSION = '0.06';
 $PACKAGE = 'ShiftJIS::CP932::Correct';
 
 my $Err_too = "$PACKAGE: Too many arguments for %s";
@@ -536,17 +536,20 @@ Returns boolean whether the string is a CP-932 string.
   correct_cp932 and is_corrected_cp932 by default.
   is_cp932 on request.
 
+=head1 CAVEAT
+
+A corrected CP-932 string may still contain a vendor-defined character.
+
+B<IT SHOULD BE NOTED THAT CP-932 IS DIFFERENT FROM SHIFT_JIS !!>
+
 =head1 AUTHOR
 
-Tomoyuki SADAHIRO
+SADAHIRO Tomoyuki <SADAHIRO@cpan.org>
 
-  bqw10602@nifty.com
-  http://homepage1.nifty.com/nomenclator/perl/
+Copyright(C) 2001-2002, SADAHIRO Tomoyuki. Japan. All rights reserved.
 
-  Copyright(C) 2001-2002, SADAHIRO Tomoyuki. Japan. All rights reserved.
-
-This program is free software; you can redistribute it and/or 
-modify it under the same terms as Perl itself.
+This module is free software; you can redistribute it
+and/or modify it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 

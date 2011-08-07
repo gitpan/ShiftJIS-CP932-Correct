@@ -1,4 +1,4 @@
-ShiftJIS::CP932::Correct version 0.05
+ShiftJIS::CP932::Correct version 0.06
 ================
 
 NAME
@@ -43,17 +43,12 @@ DEPENDENCIES
 
     Perl 5.003 or later.
 
-COPYRIGHT AND LICENCE
+COPYRIGHT AND LICENSE
 
-    Tomoyuki SADAHIRO
+   Copyright(C) 2001-2002, SADAHIRO Tomoyuki. Japan. All rights reserved.
 
-    bqw10602@nifty.com
-    http://homepage1.nifty.com/nomenclator/perl/
-
-    Copyright(C) 2001, SADAHIRO Tomoyuki. Japan. All rights reserved.
-
-This program is free software; you can redistribute it and/or 
-modify it under the same terms as Perl itself.
+   This module is free software; you can redistribute it
+   and/or modify it under the same terms as Perl itself.
 
 SEE ALSO
 

@@ -1,7 +1,9 @@
 use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
+
 WriteMakefile(
-    'NAME'	=> 'ShiftJIS::CP932::Correct',
-    'VERSION_FROM' => 'Correct.pm', # finds $VERSION
+    'NAME'		=> 'ShiftJIS::CP932::Correct',
+    'VERSION_FROM'	=> 'Correct.pm',
+    'ABSTRACT_FROM'	=> 'Correct.pm',
+    'AUTHOR'		=> 'SADAHIRO Tomoyuki <SADAHIRO@cpan.org>',
+    'LICENSE'		=> 'perl',
 );
